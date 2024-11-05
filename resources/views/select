@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Search</title>
+    <style>
+        .select-container {
+            position: relative;
+            width: 200px;
+        }
+        .select-search {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: white;
+            z-index: 1000;
+            display: none;
+        }
+        .option {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="select-container">
+    <input type="text" class="select-search" placeholder="Rechercher...">
+    <div class="options">
+        <div class="option">Option 1</div>
+        <div class="option">Option 2</div>
+        <div class="option">Option 3</div>
+        <div class="option">Option 4</div>
+        <div class="option">Option 5</div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.querySelector('.select-search');
+    const options = document.querySelector('.options');
+    const optionElements = document.querySelectorAll('.option');
+
+    searchInput.addEventListener('focus', () => {
+        options.style.display = 'block';
+    });
+
+    searchInput.addEventListener('input', () => {
+        const searchValue = searchInput.value.toLowerCase();
+        optionElements.forEach(option => {
+            const optionText = option.textContent.toLowerCase();
+            option.style.display = optionText.includes(searchValue) ? 'block' : 'none';
+        });
+    });
+
+    optionElements.forEach(option => {
+        option.addEventListener('click', () => {
+            searchInput.value = option.textContent;
+            options.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.select-container')) {
+            options.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>
